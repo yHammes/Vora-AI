@@ -1,0 +1,98 @@
+body {
+    height: 100vh;
+    margin-top: 3%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 10%;
+    padding: 0;
+    background-color: rgb(251, 233, 247);
+}
+
+header {
+    display: flex;
+    align-items: center;    
+    height: 10%;
+    background-color: rgb(243, 203, 234);
+    padding: 0 20px;
+}
+
+section {
+    display: flex;
+    background-color: rgb(243, 215, 237) ;
+    height: 80%;    
+}
+
+#vora_name {
+    flex: 1;            
+    text-align: center; 
+    margin-left: 5%;   
+}
+
+#vora_name h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 3rem;
+    letter-spacing: 2px;
+    color: #000;
+    margin: 0;
+}
+
+#exit_icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem; 
+    color: #333;
+    transition: transform 0.2s;
+}
+
+#history_list {
+    background-color:rgb(243, 203, 234);
+    width: 15%;
+    height: 100%;
+}
+
+#input_container {
+    display: flex;
+    align-items: center; 
+    gap: 10px;           
+    width: 90%;
+    margin: 0 auto; 
+}
+
+
+#chat_box {
+    background-color: rgb(249, 189, 235);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; 
+    padding: 20px;
+}
+
+#chat {
+    flex: 1;         
+    height: 50px;
+    border-radius: 10px;
+    padding: 10px;
+    resize: none;
+    border: 1px solid #ccc;
+}
+
+#exit_btn, #send_btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem; 
+    color: #333;
+    transition: transform 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+#exit_btn:hover, #send_btn:hover {
+    transform: scale(1.1);
+    color: #000;
+}

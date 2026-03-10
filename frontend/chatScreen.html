@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vora-AI</title>
+    <script
+      src="https://kit.fontawesome.com/4abcb7b86d.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="src\assets\styles\chatScreenStyle.css"e/>
+  </head>
+  <body>
+    <header>
+      <div id="vora_name">
+        <h1>VORA</h1>
+      </div>
+      <div id="exit_icon">
+        <button id="exit_btn" title="Sair">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </header>
+    <section>
+      <div id="history_list"></div>
+      <div id="chat_box">
+        <div id="messages_display" style="flex: 1"></div>
+        <div id="input_container">
+          <textarea
+            name="user_chat"
+            id="chat"
+            placeholder="Digite sua mensagem..."
+          ></textarea>
+          <button id="send_btn" title="Enviar">
+            <i class="fa-solid fa-square-arrow-up-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
