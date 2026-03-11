@@ -1,24 +1,21 @@
 body {
     height: 100vh;
-    margin-top: 3%;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-bottom: 10%;
+    width: 100%;
+    margin: 0;
     padding: 0;
-    background-color: rgb(251, 233, 247);
+    background-color: #e5e7eb;
+    overflow-x: hidden;
 }
 
 header {
     display: flex;
     align-items: center;    
     height: 10%;
-    background-color: rgb(243, 203, 234);
-    padding: 0 20px;
+    padding: 0 20px 0;
 }
 
 section {
     display: flex;
-    background-color: rgb(243, 215, 237) ;
     height: 80%;    
 }
 
@@ -31,38 +28,26 @@ section {
 #vora_name h1 {
     font-family: 'Playfair Display', serif;
     font-weight: 700;
-    font-size: 3rem;
+    font-size: 1.5rem;
     letter-spacing: 2px;
     color: #000;
     margin: 0;
 }
 
-#exit_icon {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 2rem; 
-    color: #333;
-    transition: transform 0.2s;
-}
-
-#history_list {
-    background-color:rgb(243, 203, 234);
-    width: 15%;
-    height: 100%;
+.fa-arrow-right-from-bracket{
+    font-size: 1.5rem;
 }
 
 #input_container {
     display: flex;
     align-items: center; 
     gap: 10px;           
-    width: 90%;
+    width: 60%;
     margin: 0 auto; 
 }
 
 
 #chat_box {
-    background-color: rgb(249, 189, 235);
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -94,5 +79,42 @@ section {
 
 #exit_btn:hover, #send_btn:hover {
     transform: scale(1.1);
-    color: #000;
+    color: #ec007e;
+}
+
+
+#messages_display {
+    margin-right: 20%;
+    margin-left: 20%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+.message {
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+
+.user-message {
+    align-self: flex-end;
+    background-color: #ec007e;
+    color: #fff;
+    border-bottom-right-radius: 2px;
+}
+
+
+.assistant-message {
+    align-self: flex-start;
+    background-color: #fff;
+    color: #333;
+    border-bottom-left-radius: 2px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
