@@ -50,7 +50,6 @@
     </section>
 
     <script>
-
       const msg = document.getElementById("chat");
       const display = document.getElementById("messages_display");
 
@@ -73,15 +72,21 @@
 
       document.addEventListener("keydown", function (event) {
         const textArea = document.getElementById("chat");
-        if (event.key ==="Enter"){
+        if (event.key === "Enter") {
           const activeElement = document.activeElement;
           if (activeElement.tagName === "TEXTAREA") {
             sendMessage();
-            textArea.value = '';
+            textArea.value = "";
           }
         }
       });
-      
+
+      function chatID() {
+        const sessionId = crypto.randomUUID();
+        console.log(sessionId);
+      }
+
+      document.addEventListener("DOMContentLoaded", chatID);
     </script>
   </body>
 </html>
