@@ -13,23 +13,23 @@
 <div class="container">
 
 <h1 style="font-family: &quot;Playfair Display&quot;, serif;">VORA</h1>
-<p class="subtitle">Create your account</p>
+<p class="subtitle">Crie sua conta</p>
 
 <form>
 
-<label>Username</label>
-<input type="Username" placeholder="Username">
+<label>Nome de Usuário</label>
+<input type="Username" placeholder="Nome de Usuário">
 
-<label>Email</label>
-<input type="email" placeholder="you@example.com">
+<label>Senha</label>
+<input id="Senha1"type="password" placeholder="••••••••">
 
-<label>Password</label>
-<input type="password" placeholder="••••••••">
+<label>Repita a senha</label>
+<input id="Senha2" type="password" placeholder="••••••••">
 
-<button>Sign In</button>
+<button onclick="createAccount()">Sign In</button>
 
 <p class="signup" style = "color:gray">
-Have an account?
+Já tem uma conta?
 <a href="index.html">Login</a>
 </p>
 
@@ -38,4 +38,17 @@ Have an account?
 </div>
 
 </body>
+
+<script>
+    function createAccount() {
+    let senha1 = document.getElementById("Senha1").value;
+    let senha2 = document.getElementById("Senha2").value;
+
+    if (senha1 === senha2) {
+        alert("Conta criada com sucesso!");
+    } else {
+        alert("As senhas não coincidem!");
+    }
+}
+</script>
 </html>
