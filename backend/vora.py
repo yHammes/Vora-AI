@@ -18,11 +18,14 @@ class Vora:
         if not api_key:
             raise RuntimeError("GOOGLE_API_KEY is not set in .env or environment.")
 
-        prompt = ChatPromptTemplate.from_template(
-            "You are a helpful assistant. Answer the user's question clearly.\n\nQuestion: {question}"
+        prompt = ChatPromptTemplate.from_messages(
+            [
+                ("system", open("prompts/support_agent.md").read()),
+                ("user", "Mensagem do usuario: {question}"),
+            ]
         )
 
-        llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=api_key)
+        llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 
         parser = StrOutputParser()
 
