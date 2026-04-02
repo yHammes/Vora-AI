@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from typing import Optional
 
 from dotenv import load_dotenv
@@ -18,9 +19,16 @@ class Vora:
         if not api_key:
             raise RuntimeError("GOOGLE_API_KEY is not set in .env or environment.")
 
+        base_dir = Path(__file__).resolve().parent
+        print(base_dir)
+        prompt_path = base_dir / "prompts/vora_prompt.md"
+
         prompt = ChatPromptTemplate.from_messages(
             [
-                ("system", open("prompts/support_agent.md").read()),
+                (
+                    "system",
+                    open(prompt_path).read(),
+                ),
                 ("user", "Mensagem do usuario: {question}"),
             ]
         )
