@@ -10,6 +10,7 @@ class SessionRepository:
         sql = "INSERT INTO `session` (session_user_id) VALUES (%s)"
         self.cursor.execute(sql, (session_user_id,))
         self.conexao.commit()
+        return self.cursor.lastrowid
 
     def get_by_id(self, session_id):
         sql = """
@@ -53,4 +54,3 @@ class SessionRepository:
             self.cursor.close()
         if self.conexao:
             self.conexao.close()
-            
