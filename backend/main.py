@@ -22,7 +22,7 @@ async def chat(
     message_repo = MessageRepository()
 
     try:
-        if not session_id or not session_repo.get_by_id(session_id):
+        if not session_repo.get_by_id(session_id):
             session_id = session_repo.insert(user_id)
 
         message_repo.insert("user", question, session_id)
@@ -68,34 +68,3 @@ async def login(user_name: str = Body(...), password: str = Body(...)):
         raise HTTPException(status_code=401, detail="Invalid credentials.")
 
     return {"message": "Login successful.", "user_name": user_name}
-
-
-if __name__ == "__main__":
-
-    async def test_chat(session_id: int, user_id: int, question: str):
-        session_repo = SessionRepository()
-        message_repo = MessageRepository()
-        question = "como fritar um ovo?"
-
-        try:
-            if not session_id or not session_repo.get_by_id(session_id):
-                session_id = session_repo.insert(user_id)
-
-            message_repo.insert("user", question, session_id)
-
-            try:
-                answer: str = await vora.answer(question)
-            except Exception as exc:
-                raise HTTPException(
-                    status_code=500, detail=f"Failed to generate answer: {exc}"
-                ) from exc
-
-            message_repo.insert("assistent", answer, session_id)
-
-        finally:
-            session_repo.close()
-            message_repo.close()
-
-        return {"answer": answer, "session_id": session_id}
-
-    asyncio.run(test_chat(1, 6, "como fritar um ovo?"))
