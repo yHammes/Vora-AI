@@ -11,7 +11,7 @@ class UserRepository:
         self.cursor.execute(sql, (name, password))
         self.conexao.commit()
 
-    def get_by_name(self, name)
+    def get_by_name(self, name):
         sql = "SELECT id, name, password FROM `user` WHERE name = %s"
         self.cursor.execute(sql, (name,))
         return self.cursor.fetchone()
