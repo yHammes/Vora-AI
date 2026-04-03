@@ -64,7 +64,14 @@ async def login(user_name: str = Body(...), password: str = Body(...)):
         user = repo.get_by_name(user_name)
     finally:
         repo.close()
-    if not user or not bcrypt.checkpw(password.encode(), user[2].encode()):
+
+    if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials.")
 
-    return {"message": "Login successful.", "user_name": user_name}
+    user_password = user[2]
+    user_id = user[0]
+
+    if not bcrypt.checkpw(password.encode(), user_password.encode()):
+        raise HTTPException(status_code=401, detail="Invalid credentials.")
+
+    return {"message": "Login successful.", "user_id": user_id, "user_name": user_name}
