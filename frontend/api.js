@@ -1,5 +1,5 @@
-function enviar_mensagem(question, user_id, session_id) {
-  fetch("https://vora-ai-back-end.vercel.app/send_message", {
+async function send_message(question, user_id, session_id) {
+  return fetch("https://vora-ai-back-end.vercel.app/send_message", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -7,13 +7,47 @@ function enviar_mensagem(question, user_id, session_id) {
       session_id: session_id,
       question: question,
     }),
-  }).then((response) => {
-    if (!response.ok) {
-      throw new Error("HTTP error: " + response.status);
-    }
-    console.log(response);
-    return response.json();
+  }).then(async (response) => {
+    const errorText = await response.text();
+    if (!response.ok) return { status: response.status, data: errorText };
+
+    return { status: response.status, data: errorText };
   });
 }
 
-answer = enviar_mensagem("boa noite", 6, 22);
+async function register(user_name, password) {
+  return fetch("https://vora-ai-back-end.vercel.app/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      user_name: user_name,
+      password: password,
+    }),
+  }).then(async (response) => {
+    const errorText = await response.text();
+    if (!response.ok) return { status: response.status, data: errorText };
+    return { status: response.status, data: errorText };
+  });
+}
+
+async function login(user_name, password) {
+  return fetch("https://vora-ai-back-end.vercel.app/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      user_name: user_name,
+      password: password,
+    }),
+  }).then(async (response) => {
+    const errorText = await response.text();
+    if (!response.ok) return { status: response.status, data: errorText };
+    return { status: response.status, data: errorText };
+  });
+}
+
+async function main() {
+  response = await register("Joao22222", "2341312312");
+  console.log(response);
+}
+
+main();
