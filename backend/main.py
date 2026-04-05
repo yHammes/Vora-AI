@@ -6,10 +6,19 @@ from database.repositories.message_repository import MessageRepository
 from database.repositories.session_repository import SessionRepository
 from database.repositories.user_repository import UserRepository
 from fastapi import Body, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from vora import Vora
 
 app = FastAPI(title="Vora AI Backend", version="0.1.0")
 vora = Vora()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://vora-ai-ruddy.vercel.app"],  # frontend
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.post("/send_message")

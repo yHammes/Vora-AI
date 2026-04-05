@@ -44,10 +44,3 @@ async function login(user_name, password) {
     return { status: response.status, data: errorText };
   });
 }
-
-async function main() {
-  response = await register("Joao22222", "2341312312");
-  console.log(response);
-}
-
-main();
