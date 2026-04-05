@@ -33,23 +33,28 @@ Não tem uma conta?
 
 
 <script>
-async function logar(event) {
-  event.preventDefault();
+  async function logar(event) {
+    event.preventDefault();
 
-  const user = document.getElementById("loginUser").value;
-  const senha = document.getElementById("loginSenha").value;
+    const user = document.getElementById("loginUser").value;
+    const senha = document.getElementById("loginSenha").value;
 
-  const data = await login(user, senha);
-  console.log(data);
-  if (data.status === 200) {
-    localStorage.setItem("user", data['user_id']);
+    try {
+      const data = await login(user, senha);
+      console.log(data);
 
-    window.location.href = "chatScreen.html";
-  } else {
-    alert("Usuário ou senha inválidos!");
+      if (data.status === 200) {
+        localStorage.setItem("user", data.user_id);
+        window.location.href = "chatScreen.html";
+      } else {
+        alert("Erro: " + (data.detail || "Usuário ou senha inválidos!"));
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert("Erro inesperado: " + (error.message || error));
+    }
   }
-  console.log(resposta);
-}
 </script>
 </body>
 </html>

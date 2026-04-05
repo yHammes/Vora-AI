@@ -39,12 +39,20 @@ async function cadastrar(event) {
     return;
   }
 
-  const data = await register(user, s1);
-  if (data.status === 200) {
-    alert("Usuário cadastrado com sucesso!");
-    window.location.href = "index.html";
-  } else {
-    alert("Erro: " + data['detail']); // Use parsed data for error message
+  try {
+    const data = await register(user, s1);
+
+    if (data.status === 200) {
+      alert("Usuário cadastrado com sucesso!");
+      window.location.href = "index.html";
+    } else {
+      alert("Erro: " + data.detail);
+    }
+
+  } catch (error) {
+    console.error(error);
+
+    alert("Erro: " + (error.message || error));
   }
 }
 </script>
