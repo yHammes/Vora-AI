@@ -1,36 +1,26 @@
-async function send_message(question, user_id, session_id) {
-  const endpoint = "https://vora-ai-back-end.vercel.app/send_message";
-  console.log("[send_message] Request started", {
-    endpoint,
-    user_id,
-    session_id,
-    question,
-  });
+const BASE_URL = "https://vora-ai-back-end.vercel.app";
+
+async function request(endpoint, body) {
+  const url = `${BASE_URL}/${endpoint}`;
+  console.log(`[${endpoint}] Request started`, { url, ...body });
 
   try {
-    const response = await fetch(endpoint, {
+    const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user_id, session_id, question }),
+      body: JSON.stringify(body),
     });
 
     const data = await response.text();
+    const level = response.ok ? "log" : "warn";
+    console[level](
+      `[${endpoint}] Request ${response.ok ? "successful" : "failed"}`,
+      { status: response.status, data },
+    );
 
-    if (!response.ok) {
-      console.warn("[send_message] Request failed", {
-        status: response.status,
-        data,
-      });
-      return { status: response.status, data };
-    }
-
-    console.log("[send_message] Request successful", {
-      status: response.status,
-      data,
-    });
     return { status: response.status, data };
   } catch (error) {
-    console.error("[send_message] Unexpected error", {
+    console.error(`[${endpoint}] Unexpected error`, {
       error: error.message,
       stack: error.stack,
     });
@@ -38,69 +28,19 @@ async function send_message(question, user_id, session_id) {
   }
 }
 
-async function register(user_name, password) {
-  const endpoint = "https://vora-ai-back-end.vercel.app/register";
-  console.log("[register] Request started", { endpoint, user_name });
-
-  try {
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user_name, password }),
-    });
-
-    const data = await response.text();
-
-    if (!response.ok) {
-      console.warn("[register] Request failed", {
-        status: response.status,
-        data,
-      });
-      return { status: response.status, data };
-    }
-
-    console.log("[register] Request successful", {
-      status: response.status,
-      data,
-    });
-    return { status: response.status, data };
-  } catch (error) {
-    console.error("[register] Unexpected error", {
-      error: error.message,
-      stack: error.stack,
-    });
-    throw error;
+function send_message(question, user_id, session_id) {
+  if (!user_id) {
+    window.location.href = "index.html";
+    return;
   }
+
+  return request("send_message", { user_id, session_id, question });
 }
 
-async function login(user_name, password) {
-  const endpoint = "https://vora-ai-back-end.vercel.app/login";
-  console.log("[login] Request started", { endpoint, user_name });
+function register(user_name, password) {
+  return request("register", { user_name, password });
+}
 
-  try {
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user_name, password }),
-    });
-
-    const data = await response.text();
-
-    if (!response.ok) {
-      console.warn("[login] Request failed", { status: response.status, data });
-      return { status: response.status, data };
-    }
-
-    console.log("[login] Request successful", {
-      status: response.status,
-      data,
-    });
-    return { status: response.status, data };
-  } catch (error) {
-    console.error("[login] Unexpected error", {
-      error: error.message,
-      stack: error.stack,
-    });
-    throw error;
-  }
+function login(user_name, password) {
+  return request("login", { user_name, password });
 }
