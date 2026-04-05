@@ -76,4 +76,31 @@ async function register(user_name, password) {
 async function login(user_name, password) {
   const endpoint = "https://vora-ai-back-end.vercel.app/login";
   console.log("[login] Request started", { endpoint, user_name });
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user_name, password }),
+    });
+
+    const data = await response.text();
+
+    if (!response.ok) {
+      console.warn("[login] Request failed", { status: response.status, data });
+      return { status: response.status, data };
+    }
+
+    console.log("[login] Request successful", {
+      status: response.status,
+      data,
+    });
+    return { status: response.status, data };
+  } catch (error) {
+    console.error("[login] Unexpected error", {
+      error: error.message,
+      stack: error.stack,
+    });
+    throw error;
+  }
 }
