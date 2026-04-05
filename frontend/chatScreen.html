@@ -66,11 +66,16 @@
 
             async function sendMessage() {
                 if (usr_msg.value.trim() === "") return;
-                user_msg = usr_msg.value;
-                renderNewMessage("user", user_msg);
-                const vora_msg = await send_message(user_msg, localStorage.getItem("user"), sessao_atual);
-                user_msg = "";
-                renderNewMessage("assistant", vora_msg.data);
+                question = usr_msg.value;
+                renderNewMessage("user", question);
+                usr_msg = "";
+                const response = await send_message(
+                    question,
+                    localStorage.getItem("user"),
+                    sessao_atual,
+                );
+                data = await response.json();
+                renderNewMessage("assistant", data.answer);
             }
 
             function renderNewMessage(type, message) {
