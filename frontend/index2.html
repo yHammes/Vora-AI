@@ -39,10 +39,9 @@ async function cadastrar(event) {
     return;
   }
 
-  const res = await register(user, s1);
-  const data = await res.json(); // Parse the response body
-
-  if (res.status === 200) {
+  const data = await register(user, s1);
+  console.log(data);
+  if (data.status === 200) {
     alert("Cadastrado!");
     window.location.href = "index.html";
   } else {
