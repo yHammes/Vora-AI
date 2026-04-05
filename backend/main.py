@@ -14,7 +14,7 @@ vora = Vora()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://vora-ai-ruddy.vercel.app"],  # frontend
+    allow_origins=["https://vora-ai-ruddy.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -34,7 +34,7 @@ async def chat(
         if not session_repo.get_by_id(session_id):
             session_id = session_repo.insert(user_id)
 
-        history = message_repo.get_messages_by_session_id(1)
+        history = message_repo.get_messages_by_session_id(session_id)
         message_repo.insert("user", question, session_id)
 
         try:
