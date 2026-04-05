@@ -11,14 +11,13 @@ async function request(endpoint, body) {
       body: JSON.stringify(body),
     });
 
-    const data = await response.text();
     const level = response.ok ? "log" : "warn";
     console[level](
       `[${endpoint}] Request ${response.ok ? "successful" : "failed"}`,
-      { status: response.status, data },
+      { status: response.status, data: response.body },
     );
 
-    return { status: response.status, data };
+    return { status: response.status, data: response.body };
   } catch (error) {
     console.error(`[${endpoint}] Unexpected error`, {
       error: error.message,
