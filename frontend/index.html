@@ -41,7 +41,7 @@ Não tem uma conta?
 
     try {
       const response = await login(user, senha);
-      const data = await response.json();
+      const data = await response.data.json();
       console.log(data);
 
       if (response.status === 200) {
