@@ -41,7 +41,7 @@ async function cadastrar(event) {
 
   try {
     const data = await register(user, s1);
-
+    console.log(1111, data)
     if (data.status === 200) {
       alert("Usuário cadastrado com sucesso!");
       window.location.href = "index.html";
