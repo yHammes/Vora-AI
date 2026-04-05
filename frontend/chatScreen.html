@@ -67,7 +67,7 @@
                 if (usr_msg.value.trim() === "") return;
                 question = usr_msg.value;
                 renderNewMessage("user", question);
-                usr_msg = "";
+                usr_msg.value = "";
                 const response = await send_message(
                     question,
                     localStorage.getItem("user"),
