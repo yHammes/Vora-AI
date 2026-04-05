@@ -63,8 +63,8 @@
             async function sendMessage() {
                 user_msg = usr_msg.value;
                 renderNewMessage("user", user_msg);
-                console.log(user_msg, 1, sessao_atual);
-                const vora_msg = await send_message(user_msg, 1, sessao_atual);
+                console.log(user_msg, 4, sessao_atual);
+                const vora_msg = await send_message(user_msg, 4, sessao_atual);
                 user_msg = "";
                 renderNewMessage("assistant", vora_msg.data);
             }
