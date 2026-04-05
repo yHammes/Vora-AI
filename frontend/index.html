@@ -40,10 +40,11 @@ Não tem uma conta?
     const senha = document.getElementById("loginSenha").value;
 
     try {
-      const data = await login(user, senha);
+      const response = await login(user, senha);
+      const data = await response.json();
       console.log(data);
 
-      if (data.status === 200) {
+      if (response.status === 200) {
         localStorage.setItem("user", data.user_id);
         window.location.href = "chatScreen.html";
       } else {
