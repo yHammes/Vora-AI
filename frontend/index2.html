@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VORA Cadatro</title>
+<title>VORA Cadastro</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -15,40 +15,40 @@
 <h1 style="font-family: &quot;Playfair Display&quot;, serif;">VORA</h1>
 <p class="subtitle">Crie sua conta</p>
 
-<form>
 
-<label>Nome de Usuário</label>
-<input type="Username" placeholder="Nome de Usuário">
+<form onsubmit="cadastrar(event)">
+  <input id="username" placeholder="Usuário" required>
+  <input id="senha1" type="password" placeholder="Senha" required>
+  <input id="senha2" type="password" placeholder="Repita a senha" required>
 
-<label>Senha</label>
-<input id="Senha1"type="password" placeholder="••••••••">
-
-<label>Repita a senha</label>
-<input id="Senha2" type="password" placeholder="••••••••">
-
-<button onclick="createAccount()">Sign In</button>
-
-<p class="signup" style = "color:gray">
-Já tem uma conta?
-<a href="index.html">Login</a>
-</p>
-
+  <button type="submit">Cadastrar</button>
 </form>
 
-</div>
-
-</body>
+<script src="api.js"></script>
 
 <script>
-    function createAccount() {
-    let senha1 = document.getElementById("Senha1").value;
-    let senha2 = document.getElementById("Senha2").value;
+async function cadastrar(event) {
+  event.preventDefault();
 
-    if (senha1 === senha2) {
-        alert("Conta criada com sucesso!");
-    } else {
-        alert("As senhas não coincidem!");
-    }
+  const user = username.value;
+  const s1 = senha1.value;
+  const s2 = senha2.value;
+
+  if (s1 !== s2) {
+    alert("Senhas diferentes!");
+    return;
+  }
+
+  const res = await register(user, s1);
+  const data = await res.json(); // Parse the response body
+
+  if (res.status === 200) {
+    alert("Cadastrado!");
+    window.location.href = "index.html";
+  } else {
+    alert("Erro: " + data); // Use parsed data for error message
+  }
 }
 </script>
+</body>
 </html>

@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VORA Login</title>
+<script src="api.js"></script>
 
 <link rel="stylesheet" href="style.css">
 
@@ -15,24 +16,43 @@
 <h1 style="font-family: &quot;Playfair Display&quot;, serif;">VORA</h1>
 <p class="subtitle">Entre para continuar</p>
 
-<form>
+<form onsubmit="logar(event)">
+  <label>Nome de usuário</label>
+  <input id="loginUser" required>
 
-<label>Nome de usuário</label>
-<input type="email" placeholder="Nome de usuário">
+  <label>Senha</label>
+  <input id="loginSenha" type="password" required>
 
-<label>Senha</label>
-<input type="password" placeholder="••••••••">
-
-<button>Login</button>
+  <button type="submit">Login</button>
+</form>
 
 <p class="signup" style = "color:gray">
 Não tem uma conta?
 <a href="index2.html">Crie uma conta</a>
 </p>
 
-</form>
 
-</div>
+<script>
+async function logar(event) {
+  event.preventDefault();
 
+  const user = document.getElementById("loginUser").value;
+  const senha = document.getElementById("loginSenha").value;
+
+  const resposta = await login(user, senha);
+
+  if (resposta.status === 200) {
+    alert("Login realizado!");
+
+    // SALVA dados do usuário
+    localStorage.setItem("user", user);
+
+    window.location.href = "chatScreen.html";
+  } else {
+    alert("Usuário ou senha inválidos!");
+  }
+  console.log(resposta);
+}
+</script>
 </body>
 </html>

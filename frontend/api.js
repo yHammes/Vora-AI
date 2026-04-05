@@ -46,7 +46,7 @@ async function login(user_name, password) {
 }
 
 async function main() {
-  response = await register("Joao22222", "2341312312");
+  const response = await register("Joao22222", "2341312312");
   console.log(response);
 }
 
