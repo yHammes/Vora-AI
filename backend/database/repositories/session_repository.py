@@ -6,9 +6,9 @@ class SessionRepository:
         self.conexao = get_connection()
         self.cursor = self.conexao.cursor()
 
-    def insert(self, session_user_id):
-        sql = "INSERT INTO `session` (session_user_id) VALUES (%s)"
-        self.cursor.execute(sql, (session_user_id,))
+    def insert(self, session_id, session_user_id):
+        sql = "INSERT INTO `session` (id, session_user_id) VALUES (%s, %s)"
+        self.cursor.execute(sql, (session_id, session_user_id))
         self.conexao.commit()
         return self.cursor.lastrowid
 

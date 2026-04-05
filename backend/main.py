@@ -32,7 +32,7 @@ async def chat(
 
     try:
         if not session_repo.get_by_id(session_id):
-            session_id = session_repo.insert(user_id)
+            session_id = session_repo.insert(session_id, user_id)
 
         history = message_repo.get_messages_by_session_id(session_id)
         message_repo.insert("user", question, session_id)
