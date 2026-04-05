@@ -16,7 +16,6 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-
     <link rel="stylesheet" href="src/assets/styles/chatScreenStyle.css" />
   </head>
   <body>
@@ -49,15 +48,26 @@
         </div>
       </div>
     </section>
-
+    <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+    <script src="api.js"></script>
     <script>
-      const msg = document.getElementById("chat");
+      const sessao_atual = chatID();
+      const usr_msg = document.getElementById("chat");
       const display = document.getElementById("messages_display");
 
-      function sendMessage() {
-        message = msg.value;
-        renderNewMessage("user", message);
-        renderNewMessage("assistant", message);
+      document
+        .getElementById("exit_btn")
+        .addEventListener("click", function () {
+          window.location.href = "index.html";
+        });
+
+      async function sendMessage() {
+        if (usr_msg.value.trim() === "") return;
+        user_msg = usr_msg.value;
+        renderNewMessage("user", user_msg);
+        const vora_msg = await send_message(user_msg, 1, sessao_atual);
+        user_msg = "";
+        renderNewMessage("assistant", vora_msg.data);
       }
 
       function renderNewMessage(type, message) {
@@ -66,7 +76,12 @@
         div.classList.add(
           type === "user" ? "user-message" : "assistant-message",
         );
-        div.textContent = message;
+        if (type === "user") {
+          div.textContent = message;
+        } else {
+          div.innerHTML = marked.parse(message);
+        } 
+        // div.innerHTML = marked.parse(message);
         display.appendChild(div);
         display.scrollTop = display.scrollHeight;
       }
@@ -77,17 +92,17 @@
           const activeElement = document.activeElement;
           if (activeElement.tagName === "TEXTAREA") {
             sendMessage();
-            textArea.value = "";
+            usr_msg.value = "";
           }
         }
       });
 
       function chatID() {
-        const sessionId = crypto.randomUUID();
+        // const sessionId = crypto.randomUUID();
+        sessionId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
         console.log(sessionId);
+        return sessionId;
       }
-
-      document.addEventListener("DOMContentLoaded", chatID);
     </script>
   </body>
 </html>
