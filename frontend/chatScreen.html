@@ -24,7 +24,7 @@
                 <h1>VORA</h1>
             </div>
 
-            <button onclick="window.location.href = 'index.html'">
+            <button id="exit_btn" onclick="exitChat()">
                 <i
                     href="index.html"
                     class="fa-solid fa-arrow-right-from-bracket"
@@ -58,11 +58,10 @@
             const usr_msg = document.getElementById("chat");
             const display = document.getElementById("messages_display");
 
-            document
-                .getElementById("exit_btn")
-                .addEventListener("click", function () {
-                    window.location.href = "index.html";
-                });
+            function exitChat() {
+                window.location.href = "index.html";
+                localStorage.removeItem("user");
+            }
 
             async function sendMessage() {
                 if (usr_msg.value.trim() === "") return;
