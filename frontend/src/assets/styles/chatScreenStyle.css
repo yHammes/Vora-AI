@@ -62,6 +62,7 @@ section {
     padding: 10px;
     resize: none;
     border: 1px solid #ccc;
+    overflow-y: auto;
 }
 
 #exit_btn, #send_btn {
@@ -99,6 +100,7 @@ section {
     border-radius: 15px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.4;
+    overflow-wrap: break-word;
     word-wrap: break-word;
 }
 
