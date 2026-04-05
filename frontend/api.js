@@ -28,19 +28,62 @@ async function request(endpoint, body) {
   }
 }
 
-function send_message(question, user_id, session_id) {
-  if (!user_id) {
-    window.location.href = "index.html";
-    return;
+async function send_message(question, user_id, session_id) {
+  try {
+    if (!user_id) {
+      window.location.href = "index.html";
+      return { status: 401, detail: "Usuário não autenticado" };
+    }
+
+    const response = await request("send_message", {
+      user_id,
+      session_id,
+      question,
+    });
+
+    return response;
+  } catch (error) {
+    console.error("Erro em send_message:", error);
+
+    return {
+      status: 500,
+      detail: error.message || "Erro ao enviar mensagem",
+    };
   }
-
-  return request("send_message", { user_id, session_id, question });
 }
 
-function register(user_name, password) {
-  return request("register", { user_name, password });
+async function register(user_name, password) {
+  try {
+    const response = await request("register", {
+      user_name,
+      password,
+    });
+
+    return response;
+  } catch (error) {
+    console.error("Erro em register:", error);
+
+    return {
+      status: 500,
+      detail: error.message || "Erro ao registrar usuário",
+    };
+  }
 }
 
-function login(user_name, password) {
-  return request("login", { user_name, password });
+async function login(user_name, password) {
+  try {
+    const response = await request("login", {
+      user_name,
+      password,
+    });
+
+    return response;
+  } catch (error) {
+    console.error("Erro em login:", error);
+
+    return {
+      status: 500,
+      detail: error.message || "Erro ao fazer login",
+    };
+  }
 }
