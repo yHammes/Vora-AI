@@ -41,8 +41,8 @@ Não tem uma conta?
 
     try {
       const response = await login(user, senha);
-      const data = await response.data.json();
-      console.log(data);
+      const data = await response.json();
+      console.log("aaa", response, response);
 
       if (response.status === 200) {
         localStorage.setItem("user", data.user_id);

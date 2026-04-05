@@ -17,7 +17,7 @@ async function request(endpoint, body) {
       { status: response.status, data: response.body },
     );
 
-    return { status: response.status, data: response.body };
+    return response;
   } catch (error) {
     console.error(`[${endpoint}] Unexpected error`, {
       error: error.message,
