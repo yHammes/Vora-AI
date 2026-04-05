@@ -73,6 +73,8 @@
                     localStorage.getItem("user"),
                     sessao_atual,
                 );
+                if (response.status !== 200)
+                    return alert("Erro ao enviar mensagem " + response.error);
                 data = await response.json();
                 renderNewMessage("assistant", data.answer);
             }
