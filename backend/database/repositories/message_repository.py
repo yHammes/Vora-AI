@@ -23,9 +23,9 @@ class MessageRepository:
         self.cursor.execute(sql, (message_id,))
         return self.cursor.fetchone()
 
-    def get_by_session_id(self, session_id):
+    def get_messages_by_session_id(self, session_id):
         sql = """
-        SELECT id, role, content, created_at, update_at, session_id
+        SELECT role, content
         FROM `message`
         WHERE session_id = %s
         ORDER BY created_at ASC

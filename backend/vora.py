@@ -20,14 +20,13 @@ class Vora:
             raise RuntimeError("GOOGLE_API_KEY is not set in .env or environment.")
 
         base_dir = Path(__file__).resolve().parent
-        print(base_dir)
         prompt_path = base_dir / "prompts/vora_prompt.md"
 
         prompt = ChatPromptTemplate.from_messages(
             [
                 (
                     "system",
-                    open(prompt_path).read(),
+                    open(prompt_path).read() + "\nHistórico da conversa:\n{context}",
                 ),
                 ("user", "Mensagem do usuario: {question}"),
             ]
@@ -39,5 +38,7 @@ class Vora:
 
         return prompt | llm | parser
 
-    async def answer(self, question: str) -> str:
-        return await self._chain.ainvoke({"question": question})
+    async def answer(self, question: str, history: list) -> str:
+        context = "\n".join([f"{msg[0]}: {msg[1]}" for msg in history])
+        print("context", context)
+        return await self._chain.ainvoke({"question": question, "context": context})

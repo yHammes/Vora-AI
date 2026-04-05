@@ -25,10 +25,11 @@ async def chat(
         if not session_repo.get_by_id(session_id):
             session_id = session_repo.insert(user_id)
 
+        history = message_repo.get_messages_by_session_id(1)
         message_repo.insert("user", question, session_id)
 
         try:
-            answer: str = await vora.answer(question)
+            answer: str = await vora.answer(question, history)
         except Exception as exc:
             raise HTTPException(
                 status_code=500, detail=f"Failed to generate answer: {exc}"
