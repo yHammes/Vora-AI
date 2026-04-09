@@ -107,7 +107,7 @@
                 display.appendChild(div);
                 display.scrollTop = display.scrollHeight;
 
-                localStorage.setItem("conversaAtual", display.outerHTML);
+                localStorage.setItem("conversaAtual", display.innerHTML);
             }
 
             document.addEventListener("keydown", function (event) {
