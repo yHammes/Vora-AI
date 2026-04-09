@@ -54,9 +54,21 @@
         <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
         <script src="api.js"></script>
         <script>
-            const sessao_atual = chatID();
+
+            if(localStorage.getItem("sessaoAtual" === null)){
+                const sessao_atual = chatID();
+            }else{
+                const sessao_atual = localStorage.getItem("sessaoAtual");
+            }
+
             const usr_msg = document.getElementById("chat");
             const display = document.getElementById("messages_display");
+
+            if(localStorage.getItem("conversaAtual") === null){
+                renderNewMessage("assistant", "Bem vindo ao chat Ai VORA!");
+            }else{
+                renderNewMessage("assistant", localStorage.getItem("conversaAtual"));
+            }
 
             function exitChat() {
                 window.location.href = "index.html";
@@ -93,6 +105,8 @@
                 // div.innerHTML = marked.parse(message);
                 display.appendChild(div);
                 display.scrollTop = display.scrollHeight;
+
+                localStorage.setItem("conversaAtual", display.outerHTML);
             }
 
             document.addEventListener("keydown", function (event) {
@@ -109,6 +123,7 @@
             function chatID() {
                 // const sessionId = crypto.randomUUID();
                 sessionId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+                localStorage.setItem("sessaoAtual", sessionId);
                 return sessionId;
             }
         </script>
