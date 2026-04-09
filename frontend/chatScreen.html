@@ -67,6 +67,7 @@
             if(localStorage.getItem("conversaAtual") === null){
                 renderNewMessage("assistant", "Bem vindo ao chat Ai VORA!");
             }else{
+                display.innerHTML = '';
                 display.innerHTML = localStorage.getItem("conversaAtual");
             }
 
