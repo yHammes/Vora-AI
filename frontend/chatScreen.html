@@ -1,132 +1,128 @@
 <!doctype html>
 <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Vora-AI</title>
-        <script
-            src="https://kit.fontawesome.com/4abcb7b86d.js"
-            crossorigin="anonymous"
-        ></script>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap"
-            rel="stylesheet"
-        />
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-        />
-        <link rel="stylesheet" href="src/assets/styles/chatScreenStyle.css" />
-    </head>
-    <body>
-        <header>
-            <div id="vora_name">
-                <h1>VORA</h1>
-            </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vora-AI</title>
+    <script
+      src="https://kit.fontawesome.com/4abcb7b86d.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="src/assets/styles/chatScreenStyle.css" />
+  </head>
+  <body>
+    <header>
+      <div id="vora_name">
+        <h1>VORA</h1>
+      </div>
 
-            <button id="exit_btn" onclick="exitChat()">
-                <i
-                    href="index.html"
-                    class="fa-solid fa-arrow-right-from-bracket"
-                ></i>
-            </button>
-        </header>
+      <button id="exit_btn" onclick="exitChat()">
+        <i href="index.html" class="fa-solid fa-arrow-right-from-bracket"></i>
+      </button>
+    </header>
 
-        <section>
-            <!-- <div id="history_list"></div> -->
+    <section>
+      <!-- <div id="history_list"></div> -->
 
-            <div id="chat_box">
-                <div id="messages_display"></div>
+      <div id="chat_box">
+        <div id="messages_display"></div>
 
-                <div id="input_container">
-                    <textarea
-                        name="user_chat"
-                        id="chat"
-                        placeholder="Digite sua mensagem..."
-                        maxlength="1000"
-                    ></textarea>
-                    <button onclick="sendMessage()" id="send_btn">
-                        <i class="fa-solid fa-square-arrow-up-right"></i>
-                    </button>
-                </div>
-            </div>
-        </section>
-        <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
-        <script src="api.js"></script>
-        <script>
+        <div id="input_container">
+          <textarea
+            name="user_chat"
+            id="chat"
+            placeholder="Digite sua mensagem..."
+            maxlength="1000"
+          ></textarea>
+          <button onclick="sendMessage()" id="send_btn">
+            <i class="fa-solid fa-square-arrow-up-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+    <script src="api.js"></script>
+    <script>
+      if (localStorage.getItem("sessaoAtual" === null)) {
+        sessao_atual = chatID();
+      } else {
+        sessao_atual = localStorage.getItem("sessaoAtual");
+      }
 
-            if(localStorage.getItem("sessaoAtual" === null)){
-                const sessao_atual = chatID();
-            }else{
-                const sessao_atual = localStorage.getItem("sessaoAtual");
-            }
+      const usr_msg = document.getElementById("chat");
+      const display = document.getElementById("messages_display");
 
-            const usr_msg = document.getElementById("chat");
-            const display = document.getElementById("messages_display");
+      if (localStorage.getItem("conversaAtual") === null) {
+        renderNewMessage("assistant", "Bem vindo ao chat Ai VORA!");
+      } else {
+        display.innerHTML = "";
+        display.innerHTML = localStorage.getItem("conversaAtual");
+      }
 
-            if(localStorage.getItem("conversaAtual") === null){
-                renderNewMessage("assistant", "Bem vindo ao chat Ai VORA!");
-            }else{
-                display.innerHTML = '';
-                display.innerHTML = localStorage.getItem("conversaAtual");
-            }
+      function exitChat() {
+        window.location.href = "index.html";
+        localStorage.removeItem("user");
+      }
 
-            function exitChat() {
-                window.location.href = "index.html";
-                localStorage.removeItem("user");
-            }
+      async function sendMessage() {
+        if (usr_msg.value.trim() === "") return;
+        question = usr_msg.value;
+        renderNewMessage("user", question);
+        usr_msg.value = "";
+        const response = await send_message(
+          question,
+          localStorage.getItem("user"),
+          sessao_atual,
+        );
+        if (response.status !== 200)
+          return alert("Erro ao enviar mensagem " + response.error);
+        data = await response.json();
+        renderNewMessage("assistant", data.answer);
+      }
 
-            async function sendMessage() {
-                if (usr_msg.value.trim() === "") return;
-                question = usr_msg.value;
-                renderNewMessage("user", question);
-                usr_msg.value = "";
-                const response = await send_message(
-                    question,
-                    localStorage.getItem("user"),
-                    sessao_atual,
-                );
-                if (response.status !== 200)
-                    return alert("Erro ao enviar mensagem " + response.error);
-                data = await response.json();
-                renderNewMessage("assistant", data.answer);
-            }
+      function renderNewMessage(type, message) {
+        const div = document.createElement("div");
+        div.classList.add("message");
+        div.classList.add(
+          type === "user" ? "user-message" : "assistant-message",
+        );
+        if (type === "user") {
+          div.textContent = message;
+        } else {
+          div.innerHTML = marked.parse(message);
+        }
+        // div.innerHTML = marked.parse(message);
+        display.appendChild(div);
+        display.scrollTop = display.scrollHeight;
 
-            function renderNewMessage(type, message) {
-                const div = document.createElement("div");
-                div.classList.add("message");
-                div.classList.add(
-                    type === "user" ? "user-message" : "assistant-message",
-                );
-                if (type === "user") {
-                    div.textContent = message;
-                } else {
-                    div.innerHTML = marked.parse(message);
-                }
-                // div.innerHTML = marked.parse(message);
-                display.appendChild(div);
-                display.scrollTop = display.scrollHeight;
+        localStorage.setItem("conversaAtual", display.innerHTML);
+      }
 
-                localStorage.setItem("conversaAtual", display.innerHTML);
-            }
+      document.addEventListener("keydown", function (event) {
+        const textArea = document.getElementById("chat");
+        if (event.key === "Enter") {
+          const activeElement = document.activeElement;
+          if (activeElement.tagName === "TEXTAREA") {
+            sendMessage();
+            usr_msg.value = "";
+          }
+        }
+      });
 
-            document.addEventListener("keydown", function (event) {
-                const textArea = document.getElementById("chat");
-                if (event.key === "Enter") {
-                    const activeElement = document.activeElement;
-                    if (activeElement.tagName === "TEXTAREA") {
-                        sendMessage();
-                        usr_msg.value = "";
-                    }
-                }
-            });
-
-            function chatID() {
-                // const sessionId = crypto.randomUUID();
-                sessionId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
-                localStorage.setItem("sessaoAtual", sessionId);
-                return sessionId;
-            }
-        </script>
-    </body>
+      function chatID() {
+        // const sessionId = crypto.randomUUID();
+        sessionId = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+        localStorage.setItem("sessaoAtual", sessionId);
+        return sessionId;
+      }
+    </script>
+  </body>
 </html>
