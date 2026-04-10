@@ -65,7 +65,7 @@ section {
     overflow-y: auto;
 }
 
-#exit_btn, #send_btn {
+#exit_btn, #reset_chat, #send_btn {
     background: none;
     border: none;
     cursor: pointer;
@@ -78,7 +78,7 @@ section {
     padding: 0;
 }
 
-#exit_btn:hover, #send_btn:hover {
+#exit_btn:hover, #reset_chat:hover, #send_btn:hover {
     transform: scale(1.1);
     color: #ec007e;
 }
@@ -110,6 +110,7 @@ section {
     background-color: #ec007e;
     color: #fff;
     border-bottom-right-radius: 2px;
+    
 }
 
 
@@ -119,4 +120,9 @@ section {
     color: #333;
     border-bottom-left-radius: 2px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.fa-arrow-rotate-left {
+    font-size: 1.5rem;
+     
 }

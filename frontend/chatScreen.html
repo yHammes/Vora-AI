@@ -20,6 +20,10 @@
   </head>
   <body>
     <header>
+      <button id="reset_chat" onclick="newChat()">
+        <i class="fa-solid fa-arrow-rotate-left"></i>
+      </button>
+
       <div id="vora_name">
         <h1>VORA</h1>
       </div>
@@ -51,12 +55,11 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
     <script src="api.js"></script>
     <script>
-      if (localStorage.getItem("sessaoAtual" === null)) {
+      if (localStorage.getItem("sessaoAtual") === null) {
         sessao_atual = chatID();
       } else {
         sessao_atual = localStorage.getItem("sessaoAtual");
       }
-
       const usr_msg = document.getElementById("chat");
       const display = document.getElementById("messages_display");
 
@@ -70,6 +73,16 @@
       function exitChat() {
         window.location.href = "index.html";
         localStorage.removeItem("user");
+        localStorage.removeItem("sessaoAtual");
+      }
+
+      function newChat() {
+        if (confirm("Deseja iniciar um novo chat?")) {
+          localStorage.removeItem("sessaoAtual");
+          localStorage.removeItem("conversaAtual");
+          display.innerHTML = null;
+          location.reload();
+        }
       }
 
       async function sendMessage() {
@@ -77,15 +90,41 @@
         question = usr_msg.value;
         renderNewMessage("user", question);
         usr_msg.value = "";
+        document.getElementById("chat").disabled = true;
+        showLoading();
         const response = await send_message(
           question,
           localStorage.getItem("user"),
           sessao_atual,
         );
+        hideLoading();
         if (response.status !== 200)
           return alert("Erro ao enviar mensagem " + response.error);
         data = await response.json();
         renderNewMessage("assistant", data.answer);
+        document.getElementById("chat").disabled = false;
+      }
+
+      function showLoading() {
+        const loadDiv = document.createElement("div");
+        loadDiv.id = "loading_div";
+        loadDiv.classList.add("message", "assistant-message");
+        loadDiv.style.cssText = "display:flex; gap:8px; align-items:center;";
+
+        for (let i = 0; i < 3; i++) {
+          const icon = document.createElement("i");
+          icon.className = "fa-solid fa-carrot fa-bounce";
+          icon.style.cssText = `font-size:1.0rem; color:#333; animation-delay:${i * 0.2}s;`;
+          loadDiv.appendChild(icon);
+        }
+
+        document.getElementById("messages_display").appendChild(loadDiv);
+        display.scrollTop = display.scrollHeight;
+      }
+
+      function hideLoading() {
+        const loadDiv = document.getElementById("loading_div");
+        if (loadDiv) loadDiv.remove();
       }
 
       function renderNewMessage(type, message) {
