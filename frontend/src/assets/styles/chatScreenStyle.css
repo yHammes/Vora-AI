@@ -53,6 +53,7 @@ section {
     flex-direction: column;
     justify-content: flex-end; 
     padding: 20px;
+    
 }
 
 #chat {
@@ -63,6 +64,7 @@ section {
     resize: none;
     border: 1px solid #ccc;
     overflow-y: auto;
+    
 }
 
 #exit_btn, #reset_chat, #send_btn {
